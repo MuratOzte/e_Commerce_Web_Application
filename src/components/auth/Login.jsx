@@ -27,8 +27,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const Login = () => {
-    const [enteredEmail, setEnteredEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
+    const [enteredEmail, setEnteredEmail] = useState('murat@murat.com');
+    const [enteredPassword, setEnteredPassword] = useState('2');
 
     const API_URL = 'http://localhost:3000/auth/login';
 
@@ -50,6 +50,8 @@ const Login = () => {
 
             const responseData = await response.json();
             console.log(responseData);
+            const token = responseData.token;
+            localStorage.setItem("token",token);
         } catch (error) {
             console.error('Error:', error.message);
         }
