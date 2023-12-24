@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import Error from './page/Error.jsx';
-import MainNav from './components/MainNav.jsx';
-import Layout from './page/Layout.jsx';
+import Error from './pages/Error.jsx';
+import Layout from './pages/Layout.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
