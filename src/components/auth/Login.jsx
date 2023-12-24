@@ -10,6 +10,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import loginSlice from '../../store/loginSlice';
 
 function Copyright(props) {
     return (
@@ -29,6 +32,8 @@ const defaultTheme = createTheme();
 const Login = () => {
     const [enteredEmail, setEnteredEmail] = useState('murat@murat.com');
     const [enteredPassword, setEnteredPassword] = useState('2');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const API_URL = 'http://localhost:3000/auth/login';
 
@@ -51,7 +56,9 @@ const Login = () => {
             const responseData = await response.json();
             console.log(responseData);
             const token = responseData.token;
-            localStorage.setItem("token",token);
+            localStorage.setItem('token', token);
+            dispatch(loginSlice.actions.isLoggedInFunc());
+            return navigate('/homepage');
         } catch (error) {
             console.error('Error:', error.message);
         }

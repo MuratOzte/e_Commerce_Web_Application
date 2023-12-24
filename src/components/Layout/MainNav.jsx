@@ -11,26 +11,27 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useSelector } from 'react-redux';
+import { ExitToApp } from '@mui/icons-material';
+import loginSlice from '../../store/loginSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Kiyafetler', 'Ayakkabi', 'Aksesuar', 'Spor Giyim', 'Canta'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
-    const [isLoggedIn, setIsLoggedIn] = React.useState(
-        localStorage.getItem('token')
-    );
+    const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    console.log(isLoggedIn);
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const exitBtnHandler = () => {
+        localStorage.removeItem('token');
+        dispatch(loginSlice.actions.isLoggedInFunc());
+        return navigate('/');
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ backgroundColor: '#607274' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon
@@ -148,9 +149,22 @@ function ResponsiveAppBar() {
                             {pages[4]}
                         </Link>
                     </Box>
-                    <IconButton sx={{ color: 'white' }}>
-                        <ShoppingCartIcon color="inherit" fontSize="large" />
-                    </IconButton>
+                    {isLoggedIn && (
+                        <IconButton sx={{ color: 'white' }}>
+                            <ShoppingCartIcon
+                                color="inherit"
+                                fontSize="large"
+                            />
+                        </IconButton>
+                    )}
+                    {isLoggedIn && (
+                        <IconButton
+                            sx={{ color: 'white' }}
+                            onClick={exitBtnHandler}
+                        >
+                            <ExitToApp color="inherit" fontSize="large" />
+                        </IconButton>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

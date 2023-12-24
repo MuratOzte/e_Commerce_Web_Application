@@ -1,5 +1,13 @@
+import Home from '../components/Home/Homepage';
+
 const Homepage = () => {
-    return <h1>Homepage</h1>;
+    return (
+        <>
+            <Home />
+        </>
+    );
 };
+
+const paperSx = {};
 
 export default Homepage;
