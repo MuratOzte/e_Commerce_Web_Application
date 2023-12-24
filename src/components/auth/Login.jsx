@@ -30,6 +30,8 @@ const Login = () => {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
 
+  const API_URL = "http://localhost:3000/auth/login";
+
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("Basarilir");

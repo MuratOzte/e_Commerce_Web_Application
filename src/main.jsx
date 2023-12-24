@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Homepage />,
+        element: <LoginPage />,
       },
       {
         path: "/products/:id",
@@ -24,10 +24,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <SignUp />,
-      },
-      {
-        path: "login",
-        element: <LoginPage />,
       },
     ],
   },
