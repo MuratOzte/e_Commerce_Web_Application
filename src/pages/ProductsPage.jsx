@@ -25,8 +25,8 @@ const Products = () => {
                     throw new Error('Something Went Wrong !');
                 }
 
-                const assd = await response.json();
-                setResult(assd);
+                const fetchedData = await response.json();
+                setResult(fetchedData);
             } catch (error) {
                 console.error('Error fetching data:', error.message);
             } finally {
@@ -42,16 +42,34 @@ const Products = () => {
             {isLoading && <p>Loading...</p>}
             {!isLoading &&
                 result &&
-                result.products.map((e) => (
-                    <>
-                        <Product
-                            key={e.product_id}
-                            price={e.price}
-                            codeId={e.code_id}
-                            url={e.product_image}
-                            title={e.product_name}
-                        />
-                    </>
+                result.products.reduce((acc, product, index) => {
+                    const rowIndex = Math.floor(index / 3);
+
+                    if (!acc[rowIndex]) {
+                        acc[rowIndex] = [];
+                    }
+
+                    acc[rowIndex].push(product);
+
+                    return acc;
+                }, []).map((rowProducts, rowIndex) => (
+                    <div
+                        key={rowIndex}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {rowProducts.map((product) => (
+                            <Product
+                                key={product.product_id}
+                                price={product.price}
+                                codeId={product.code_id}
+                                url={product.product_image}
+                                title={product.product_name}
+                            />
+                        ))}
+                    </div>
                 ))}
             <h1>{id}</h1>
         </>

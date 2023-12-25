@@ -14,9 +14,23 @@ export default function MediaCard(props) {
                 <div className="flip-card-front">
                     <img
                         src={props.url}
-                        alt="Avatar"
+                        alt={props.title}
                         style={{ width: '300px', height: '200px' }}
                     />
+                    <Typography
+                        sx={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            padding: '8px',
+                            color: 'white',
+                            textAlign: 'center',
+                        }}
+                    >
+                        {props.price}
+                    </Typography>
                 </div>
                 <div className="flip-card-back">
                     <h1>{props.title}</h1>
