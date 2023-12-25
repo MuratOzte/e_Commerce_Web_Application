@@ -17,6 +17,7 @@ import loginSlice from "../../store/loginSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
+import Orders from "../orders/Orders";
 
 const pages = ["Kiyafetler", "Ayakkabi", "Aksesuar", "Spor Giyim", "Canta"];
 
@@ -181,36 +182,15 @@ function ResponsiveAppBar() {
             </Link>
           </Box>
           {isLoggedIn && (
-            <div>
-              <IconButton onClick={handleOpen} sx={{ color: "white" }}>
-                <ShoppingCartIcon color="inherit" fontSize="large" />
-              </IconButton>
-              <Modal
+            <IconButton onClick={handleOpen} sx={{ color: "white" }}>
+              <ShoppingCartIcon color="inherit" fontSize="large" />
+              <Orders
+                onClose={() => {
+                  console.log("asdasdas");
+                }}
                 open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box
-                  sx={style}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Modal içindeki tıklamaları kapatma
-                  }}
-                >
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    Text in a modal
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor
-                    ligula.
-                  </Typography>
-                </Box>
-              </Modal>
-            </div>
+              />
+            </IconButton>
           )}
           {isLoggedIn && (
             <IconButton sx={{ color: "white" }} onClick={exitBtnHandler}>
