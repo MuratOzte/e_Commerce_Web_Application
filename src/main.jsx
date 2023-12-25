@@ -5,7 +5,7 @@ import { Error, Homepage, Layout, LoginPage } from './pages/index.js';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import './index.css';
-import Products from './pages/Products.jsx';
+import ProductsPage from './pages/ProductsPage.jsx';
 import SignUp from './components/auth/SignUp.jsx';
 import ResPassword from './components/auth/ResetPassword.jsx';
 import store from './store/index.js';
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/products/:id',
-                element: <Products />,
+                element: <ProductsPage />,
             },
             {
                 path: 'register',

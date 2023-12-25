@@ -6,40 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-const Products = () => {
-    const { id } = useParams();
-    const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-    const token = useSelector((state) => state.login.token);
-
-    const baseUrl = 'http://localhost:3000/products/';
-
-    useEffect(() => {
-        const fetchedCategories = async () => {
-            try {
-                const response = await fetch(baseUrl + id, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Something Went Wrong !');
-                }
-
-                const data = await response.json();
-                console.log(data);
-            } catch (error) {
-                console.error('Error fetching data:', error.message);
-            }
-        };
-
-        fetchedCategories();
-    }, []);
-
+const Product = () => {
     return (
         <>
             <Card sx={{ maxWidth: 345 }}>
@@ -63,10 +30,8 @@ const Products = () => {
                     <Button size="small">Learn More</Button>
                 </CardActions>
             </Card>
-
-            <h1>{id}</h1>
         </>
     );
 };
 
-export default Products;
+export default Product;
