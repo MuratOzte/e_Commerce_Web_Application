@@ -28,15 +28,14 @@ const ProductComments = (props) => {
 
     return (
         <Dialog open={isCommentModalOpen} onClose={closeBtnHandler}>
-            <DialogTitle>Sepet</DialogTitle>
+            <DialogTitle>Comments</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Üniversite e-postanı veya telefon numaranı kullanarak
-                    şifreni yenileyebilirsin
+                    there is no comment to display
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={closeBtnHandler}>İptal</Button>
+                <Button onClick={closeBtnHandler}>close</Button>
             </DialogActions>
         </Dialog>
     );

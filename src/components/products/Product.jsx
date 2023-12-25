@@ -8,8 +8,15 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
 import MediaCard from '../Home/MediaCards';
+import ProductsComment from './ProductsComment';
+
+import { useSelector } from 'react-redux';
 
 const Product = (props) => {
+    const isCommentModalOpen = useSelector(
+        (state) => state.login.isCommentModalOpen
+    );
+
     return (
         <>
             <MediaCard
