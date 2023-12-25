@@ -20,6 +20,7 @@ export default function MediaCard(props) {
                 </div>
                 <div className="flip-card-back">
                     <h1>{props.title}</h1>
+                    <h1>{props.price}</h1>
                 </div>
             </div>
         </div>
