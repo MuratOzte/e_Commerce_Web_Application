@@ -10,6 +10,8 @@ import SignUp from "./components/auth/SignUp.jsx";
 import ResPassword from "./components/auth/ResetPassword.jsx";
 import store from "./store/index.js";
 import Orders from "./components/orders/Orders.jsx";
+import DiscountedProducts from "./components/products/DiscountedProducts.jsx";
+import DiscountedProductsPage from "./pages/DiscountedProductsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "orders",
         element: <Orders />,
+      },
+      {
+        path: "discountProducts",
+        element: <DiscountedProductsPage />,
       },
     ],
   },

@@ -180,6 +180,19 @@ function ResponsiveAppBar() {
             >
               mainpage
             </Link>
+            <Link
+              style={{
+                my: 2,
+                color: "white",
+                display: "block",
+                padding: 5,
+                paddingRight: 15,
+                textDecoration: "none",
+              }}
+              to={"/discountProducts"}
+            >
+              Indirimli Urunler
+            </Link>
           </Box>
           {isLoggedIn && (
             <IconButton onClick={handleOpen} sx={{ color: "white" }}>
