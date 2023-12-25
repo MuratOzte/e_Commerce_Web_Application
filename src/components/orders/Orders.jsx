@@ -1,43 +1,43 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+//packages
+import {
+    Button,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from '@mui/material';
+//hooks
+import { useDispatch, useSelector } from 'react-redux';
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1000,
-  height: 500,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+//functions
+import loginSlice from '../../store/loginSlice';
+import { useState } from 'react';
+
+const ForgottenPasswordModal = (props) => {
+    const dispatch = useDispatch();
+    const isOpenRedux = useSelector((state) => state.login.isModalOpen);
+
+    //modal close function
+    const closeBtnHandler = () => {
+        dispatch(loginSlice.actions.toggleModalOpen(false));
+    };
+
+    return (
+        <Dialog open={isOpenRedux} onClose={closeBtnHandler}>
+            <DialogTitle>Sepet</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    Üniversite e-postanı veya telefon numaranı kullanarak
+                    şifreni yenileyebilirsin
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={closeBtnHandler}>İptal</Button>
+            </DialogActions>
+        </Dialog>
+    );
 };
 
-const Orders = (props) => {
-  const handleClickInside = (e) => {
-    e.stopPropagation(); // İçeriğe tıklanıldığında modalın kapanmasını engelle
-  };
-
-  return (
-    <Modal
-      open={props.open}
-      onClose={props.onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style} onClick={handleClickInside}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Text in a modal
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </Typography>
-      </Box>
-    </Modal>
-  );
-};
-
-export default Orders;
+export default ForgottenPasswordModal;

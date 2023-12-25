@@ -5,6 +5,7 @@ const loginSlice = createSlice({
     initialState: {
         isLoggedIn: false,
         token: 0,
+        isModalOpen: false,
     },
     reducers: {
         isLoggedInFunc(state) {
@@ -12,6 +13,9 @@ const loginSlice = createSlice({
         },
         setToken(state, action) {
             state.token = action.payload;
+        },
+        toggleModalOpen(state, action) {
+            state.isModalOpen = action.payload;
         },
     },
 });
