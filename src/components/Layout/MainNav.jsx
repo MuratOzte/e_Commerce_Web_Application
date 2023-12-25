@@ -48,7 +48,6 @@ function ResponsiveAppBar() {
                             variant="h5"
                             noWrap
                             component="a"
-                            href="/"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex' },
@@ -60,7 +59,7 @@ function ResponsiveAppBar() {
                                 textDecoration: 'none',
                             }}
                         >
-                            LOGO
+                            E-Commerce
                         </Typography>
                         <Link
                             style={{

@@ -1,20 +1,12 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import './MediaCards.css';
 import CommentIcon from '@mui/icons-material/Comment';
-import { useSelector, useDispatch } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import loginSlice from '../../store/loginSlice';
+import './MediaCards.css';
 
 export default function MediaCard(props) {
-    const isCommentModalOpen = useSelector(
-        (state) => state.login.isCommentModalOpen
-    );
     const dispatch = useDispatch();
     return (
         <div className="flip-card">
@@ -47,7 +39,9 @@ export default function MediaCard(props) {
                         <IconButton
                             sx={{ color: 'white' }}
                             onClick={() => {
-                                dispatch(loginSlice.actions.toggleCommentModal(true))
+                                dispatch(
+                                    loginSlice.actions.toggleCommentModal(true)
+                                );
                             }}
                         >
                             <CommentIcon>Contained</CommentIcon>
