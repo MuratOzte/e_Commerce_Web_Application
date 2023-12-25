@@ -8,22 +8,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import loginSlice from '../../store/loginSlice';
 import { Link } from 'react-router-dom';
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        ></Typography>
-    );
-}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -67,12 +58,14 @@ const Login = () => {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
+        <Container component="main" maxWidth="xs">
+            <Paper
+                elevation={24}
+                sx={{ pb: 5, pt: 1, px: 5, mt: 15, borderRadius: 7 }}
+            >
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -84,6 +77,13 @@ const Login = () => {
                         noValidate
                         sx={{ mt: 1 }}
                     >
+                        <Typography
+                            display={'flex'}
+                            justifyContent={'center'}
+                            fontSize={24}
+                        >
+                            Login
+                        </Typography>
                         <TextField
                             margin="normal"
                             required
@@ -120,7 +120,14 @@ const Login = () => {
                         >
                             <Grid className="pt-2">
                                 <Grid item xs>
-                                    <Link to={'/resPassword'} variant="body2">
+                                    <Link
+                                        to={'/resPassword'}
+                                        variant="body2"
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: 'black',
+                                        }}
+                                    >
                                         Forgot password?
                                     </Link>
                                 </Grid>
@@ -135,11 +142,34 @@ const Login = () => {
                         >
                             Sign In
                         </Button>
+                        <Divider
+                            sx={{
+                                bgcolor: '#e3e5e8',
+                                px: 15,
+                                py: 0.05,
+                                my: 1,
+                            }}
+                        />
+                        <Link to={'/register'}>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                sx={{
+                                    bgcolor: '#42b72a',
+                                    pt: '4',
+                                    mt: 1.5,
+                                    ':hover': {
+                                        bgcolor: '#2D8D1A',
+                                    },
+                                }}
+                            >
+                                Yeni hesap oluştur
+                            </Button>
+                        </Link>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
-            </Container>
-        </ThemeProvider>
+            </Paper>
+        </Container>
     );
 };
 
