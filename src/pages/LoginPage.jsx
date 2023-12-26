@@ -1,7 +1,8 @@
-import Login from "../components/auth/Login";
+import Login from '../components/auth/Login';
 
 const LoginPage = () => {
-  return <Login />;
+    localStorage.removeItem('token');
+    return <Login />;
 };
 
 export default LoginPage;
