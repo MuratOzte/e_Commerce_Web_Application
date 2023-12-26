@@ -42,35 +42,38 @@ const Products = () => {
             {isLoading && <p>Loading...</p>}
             {!isLoading &&
                 result &&
-                result.products.reduce((acc, product, index) => {
-                    const rowIndex = Math.floor(index / 3);
+                result.products
+                    .reduce((acc, product, index) => {
+                        const rowIndex = Math.floor(index / 3);
 
-                    if (!acc[rowIndex]) {
-                        acc[rowIndex] = [];
-                    }
+                        if (!acc[rowIndex]) {
+                            acc[rowIndex] = [];
+                        }
 
-                    acc[rowIndex].push(product);
+                        acc[rowIndex].push(product);
 
-                    return acc;
-                }, []).map((rowProducts, rowIndex) => (
-                    <div
-                        key={rowIndex}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        {rowProducts.map((product) => (
-                            <Product
-                                key={product.product_id}
-                                price={product.price}
-                                codeId={product.code_id}
-                                url={product.product_image}
-                                title={product.product_name}
-                            />
-                        ))}
-                    </div>
-                ))}
+                        return acc;
+                    }, [])
+                    .map((rowProducts, rowIndex) => (
+                        <div
+                            key={rowIndex}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            {rowProducts.map((product) => (
+                                <Product
+                                    key={product.product_id}
+                                    productId={product.product_id}
+                                    price={product.price}
+                                    codeId={product.code_id}
+                                    url={product.product_image}
+                                    title={product.product_name}
+                                />
+                            ))}
+                        </div>
+                    ))}
             <h1>{id}</h1>
         </>
     );

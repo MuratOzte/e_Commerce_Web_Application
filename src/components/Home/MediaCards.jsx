@@ -8,6 +8,7 @@ import './MediaCards.css';
 
 export default function MediaCard(props) {
     const dispatch = useDispatch();
+    console.log(props.productId);
     return (
         <div className="flip-card">
             <div className="flip-card-inner">
@@ -41,6 +42,11 @@ export default function MediaCard(props) {
                             onClick={() => {
                                 dispatch(
                                     loginSlice.actions.toggleCommentModal(true)
+                                );
+                                dispatch(
+                                    loginSlice.actions.setCommentIndex(
+                                        props.productId
+                                    )
                                 );
                             }}
                         >

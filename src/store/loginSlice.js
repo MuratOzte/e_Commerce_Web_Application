@@ -7,6 +7,7 @@ const loginSlice = createSlice({
         token: 0,
         isModalOpen: false,
         isCommentModalOpen: false,
+        commentIndex: null,
     },
     reducers: {
         isLoggedInFunc(state) {
@@ -20,6 +21,9 @@ const loginSlice = createSlice({
         },
         toggleCommentModal(state, action) {
             state.isCommentModalOpen = action.payload;
+        },
+        setCommentIndex(state, action) {
+            state.commentIndex = action.payload;
         },
     },
 });
