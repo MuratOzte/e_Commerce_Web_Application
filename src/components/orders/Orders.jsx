@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 const OrdersModal = (props) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.login.token);
-  const [result, setResult] = useState(null);
 
   //modal close function
   const closeBtnHandler = () => {
@@ -26,7 +25,6 @@ const OrdersModal = (props) => {
   };
   const isOpenRedux = useSelector((state) => state.login.isModalOpen);
   const isOrderExist = useSelector((state) => state.login.isOrderExist);
-  const orderId = useSelector((state) => state.login.orderIndex);
 
   const baseUrl = "http://localhost:3000/createOrder";
 

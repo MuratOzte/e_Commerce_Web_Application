@@ -10,31 +10,34 @@ import { useEffect } from "react";
 
 export default function MediaCard(props) {
   const dispatch = useDispatch();
-  const baseUrl = "http://localhost:3000/addProduct/";
-  const orderId = useSelector((state) => {
-    state.login.orderIndex;
-  });
-  const productId = useSelector((state) => {
-    state.login.commentIndex;
-  });
-  const token = useSelector((state) => {
-    state.login.token;
-  });
+  const orderId = useSelector((state) => state.login.orderIndex);
+  const productId = useSelector((state) => state.login.commentIndex);
+  const token = useSelector((state) => state.login.token);
 
-  useEffect(() => {
-    const fetchedData = async () => {
-      const response = await fetch(baseUrl + orderId + productId, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  //add product to cart
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/addProduct/${orderId}/${productId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Something went wrong !");
       }
-    };
-  }, []);
+
+      const fetchedData = await response.json();
+      console.log(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
 
   return (
     <div className="flip-card">
@@ -73,7 +76,13 @@ export default function MediaCard(props) {
             >
               <CommentIcon>Contained</CommentIcon>
             </IconButton>
-            <IconButton sx={{ color: "white" }}>
+            <IconButton
+              sx={{ color: "white" }}
+              onClick={() => {
+                dispatch(loginSlice.actions.setCommentIndex(props.productId));
+                fetchData();
+              }}
+            >
               <AddBoxIcon />
             </IconButton>
           </div>
