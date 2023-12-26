@@ -26,6 +26,7 @@ const OrdersModal = (props) => {
   };
   const isOpenRedux = useSelector((state) => state.login.isModalOpen);
   const isOrderExist = useSelector((state) => state.login.isOrderExist);
+  const orderId = useSelector((state) => state.login.orderIndex);
 
   const baseUrl = "http://localhost:3000/createOrder";
 
@@ -49,6 +50,7 @@ const OrdersModal = (props) => {
 
         const fetchedData = await response.json();
         console.log(fetchedData);
+        dispatch(loginSlice.actions.setOrderIndex(fetchedData.order.order_id));
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
@@ -66,7 +68,13 @@ const OrdersModal = (props) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeBtnHandler}>İptal</Button>
+        <Button
+          onClick={() => {
+            closeBtnHandler();
+          }}
+        >
+          İptal
+        </Button>
       </DialogActions>
     </Dialog>
   );
