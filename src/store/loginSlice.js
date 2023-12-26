@@ -7,6 +7,7 @@ const loginSlice = createSlice({
         token: 0,
         isModalOpen: false,
         isCommentModalOpen: false,
+        isOrderExist: false,
         commentIndex: null,
     },
     reducers: {
@@ -21,6 +22,9 @@ const loginSlice = createSlice({
         },
         toggleCommentModal(state, action) {
             state.isCommentModalOpen = action.payload;
+        },
+        OrderExist(state, action) {
+            state.isOrderExist = true;
         },
         setCommentIndex(state, action) {
             state.commentIndex = action.payload;
