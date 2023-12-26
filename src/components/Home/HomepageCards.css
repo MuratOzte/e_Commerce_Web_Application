@@ -1,8 +1,10 @@
 .cards {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     overflow: hidden;
+    margin: auto;
+    margin-top: 25px;
 }
 
 .card-image {
@@ -21,7 +23,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 5em;
+    font-size: 2em;
     color: white;
     border-radius: 50%;
     z-index: 2;
