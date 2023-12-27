@@ -8,8 +8,9 @@ const loginSlice = createSlice({
     isModalOpen: false,
     isCommentModalOpen: false,
     isOrderExist: false,
-    commentIndex: null,
+    productId: null,
     orderIndex: null,
+    commentId: null,
   },
   reducers: {
     isLoggedInFunc(state) {
@@ -27,11 +28,14 @@ const loginSlice = createSlice({
     OrderExist(state, action) {
       state.isOrderExist = true;
     },
-    setCommentIndex(state, action) {
-      state.commentIndex = action.payload;
+    setproductId(state, action) {
+      state.productId = action.payload;
     },
     setOrderIndex(state, action) {
       state.orderIndex = action.payload;
+    },
+    setCommentId(state, action) {
+      state.commentId = action.payload;
     },
   },
 });
