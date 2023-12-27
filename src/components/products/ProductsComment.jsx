@@ -71,7 +71,7 @@ const ProductComments = (props) => {
         try {
             const response = await fetch(createCommentURL + id, {
                 method: 'POST',
-                body: JSON.stringify({ comment_text: enteredComment }),
+                body: JSON.stringify({ commentText: enteredComment }),
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
