@@ -21,7 +21,6 @@ import { Send } from '@mui/icons-material';
 
 const ProductComments = (props) => {
     const dispatch = useDispatch();
-    //modal close function
     const isCommentModalOpen = useSelector(
         (state) => state.login.isCommentModalOpen
     );
@@ -30,9 +29,10 @@ const ProductComments = (props) => {
     const baseUrl = 'http://localhost:3000/productComments/';
 
     const [comments, setComments] = useState(null);
+    const [enteredComment, setEnteredComment] = useState('');
+    const [isNewCommentSend, setIsNewCommentSend] = useState(false);
 
-    const createCommentURL =
-        'http://localhost:3000/createProductComment/:productId';
+    const createCommentURL = 'http://localhost:3000/createProductComment/';
 
     const closeBtnHandler = () => {
         dispatch(loginSlice.actions.toggleCommentModal(false));
@@ -61,15 +61,34 @@ const ProductComments = (props) => {
             }
         };
         fetchData();
-    }, []);
+    }, [isNewCommentSend]);
 
-    // const sendIconHandler = async() => {
-    //     try{
-    //         const response = await fetch(createCommentURL)
-    //     }
-    // }
+    const sendComment = async () => {
+        if (!isCommentModalOpen) {
+            return;
+        }
+        setIsNewCommentSend(true);
+        try {
+            const response = await fetch(createCommentURL + id, {
+                method: 'POST',
+                body: JSON.stringify({ comment_text: enteredComment }),
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something Went Wrong !');
+            }
 
-    console.log(comments);
+            const result = await response.json();
+            console.log(result);
+            setIsNewCommentSend(false);
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+            setIsNewCommentSend(false);
+        }
+    };
 
     return (
         <Dialog open={isCommentModalOpen} onClose={closeBtnHandler}>
@@ -114,17 +133,22 @@ const ProductComments = (props) => {
             <DialogContent>
                 <TextField
                     fullWidth
+                    value={enteredComment}
+                    onChange={(e) => {
+                        setEnteredComment(e.target.value);
+                    }}
                     sx={{
                         boxShadow: 5,
-                        borderRadius: '8px', // Adjust the radius value according to your design
+                        borderRadius: '8px',
                     }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton
+                                    onClick={sendComment}
                                     sx={{
-                                        borderRadius: '0 8px 8px 0', // Adjust the radius value accordingly
-                                        boxShadow: 'none', // Apply the same boxShadow value
+                                        borderRadius: '0 8px 8px 0',
+                                        boxShadow: 'none',
                                     }}
                                 >
                                     <Send />
