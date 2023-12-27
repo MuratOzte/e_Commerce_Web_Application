@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import loginSlice from '../../store/loginSlice';
 import Orders from '../orders/Orders';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { AccountCircle } from '@mui/icons-material';
 
 const pages = ['Kiyafetler', 'Ayakkabi', 'Aksesuar', 'Spor Giyim', 'Canta'];
 
@@ -25,6 +28,16 @@ function ResponsiveAppBar() {
         localStorage.removeItem('token');
         dispatch(loginSlice.actions.isLoggedInFunc());
         return navigate('/');
+    };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -141,6 +154,40 @@ function ResponsiveAppBar() {
                                     Indirimli Urunler
                                 </Link>
                             </Box>
+                            <div>
+                                <IconButton
+                                    size="large"
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleClose}>
+                                        Siparişin Durumu
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                        Tüm Yorumlarım
+                                    </MenuItem>
+                                </Menu>
+                            </div>
                             <Box display={'flex'}>
                                 {isLoggedIn && (
                                     <IconButton
