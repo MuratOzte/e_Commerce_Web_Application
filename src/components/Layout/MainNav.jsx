@@ -40,6 +40,11 @@ function ResponsiveAppBar() {
         setAnchorEl(null);
     };
 
+    const allCommentsHandler = () => {
+        navigate('/userComments');
+        setAnchorEl(null);
+    };
+
     return (
         isLoggedIn && (
             <AppBar position="static" sx={{ backgroundColor: '#607274' }}>
@@ -186,7 +191,7 @@ function ResponsiveAppBar() {
                                         <MenuItem onClick={handleClose}>
                                             Siparişin Durumu
                                         </MenuItem>
-                                        <MenuItem onClick={handleClose}>
+                                        <MenuItem onClick={allCommentsHandler}>
                                             Tüm Yorumlarım
                                         </MenuItem>
                                     </Menu>
