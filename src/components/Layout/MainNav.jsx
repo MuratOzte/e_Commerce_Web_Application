@@ -20,6 +20,8 @@ const pages = ['Kiyafetler', 'Ayakkabi', 'Aksesuar', 'Spor Giyim', 'Canta'];
 function ResponsiveAppBar() {
     const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
     const isOpenRedux = useSelector((state) => state.login.isModalOpen);
+    const isOrderExist = useSelector((state) => state.login.isOrderExist);
+    const token = useSelector((state) => state.login.token);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -43,6 +45,10 @@ function ResponsiveAppBar() {
     const allCommentsHandler = () => {
         navigate('/userComments');
         setAnchorEl(null);
+    };
+
+    const shoppingCartIconHandler = async () => {
+        dispatch(loginSlice.actions.toggleModalOpen(true));
     };
 
     return (
@@ -198,17 +204,8 @@ function ResponsiveAppBar() {
                                 </div>
                                 {isLoggedIn && (
                                     <IconButton
-                                        disableFocusRipple
-                                        disableRipple
-                                        disableTouchRipple
                                         disabled={isOpenRedux}
-                                        onClick={() => {
-                                            dispatch(
-                                                loginSlice.actions.toggleModalOpen(
-                                                    true
-                                                )
-                                            );
-                                        }}
+                                        onClick={shoppingCartIconHandler}
                                         sx={{ color: 'white' }}
                                     >
                                         <ShoppingCartIcon
