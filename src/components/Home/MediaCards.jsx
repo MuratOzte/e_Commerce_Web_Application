@@ -10,14 +10,12 @@ import { useEffect } from 'react';
 
 export default function MediaCard(props) {
     const dispatch = useDispatch();
-    const [orderId, setOrderId] = React.useState(null);
-    const productId = useSelector((state) => state.login.productId);
     const isOrderExist = useSelector((state) => state.login.isOrderExist);
     const token = useSelector((state) => state.login.token);
 
     const baseUrl = 'http://localhost:3000/createOrder';
 
-    const fetchData = async () => {
+    const fetchData = async (orderId) => {
         try {
             const response = await fetch(
                 `http://localhost:3000/addProduct/${orderId}/${props.productId}`,
@@ -55,21 +53,24 @@ export default function MediaCard(props) {
 
             const fetchedData = await response.json();
             dispatch(loginSlice.actions.OrderExist());
-            setOrderId(fetchedData.order.order_id);
+            return fetchedData;
         } catch (error) {
             console.error('Error fetching data:', error.message);
         }
     };
 
     const orderButtonHandler = () => {
-        console.log(orderId);
         dispatch(loginSlice.actions.setproductId(props.productId));
+        let orderId;
         if (!isOrderExist) {
-            createOrder().then(() => {
-                fetchData();
+            createOrder().then((e) => {
+                orderId = e.order.order_id;
+                console.log(orderId);
+                fetchData(orderId);
             });
         } else {
-            fetchData();
+            console.log(orderId);
+            fetchData(orderId);
         }
     };
     return (
