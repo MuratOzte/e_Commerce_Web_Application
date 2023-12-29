@@ -9,6 +9,7 @@ import {
     TextField,
     InputAdornment,
     IconButton,
+    Paper,
 } from '@mui/material';
 //hooks
 import { useDispatch, useSelector } from 'react-redux';
@@ -111,6 +112,21 @@ const ProductComments = (props) => {
                     alignContent: 'center',
                 }}
             >
+                <Paper
+                    elevation={8}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        pl: 5,
+                        pr: 8,
+                        py: 1,
+                        mt: 5,
+                        ml: 1,
+                        bgcolor: 'red',
+                    }}
+                >
+                    Merhaba
+                </Paper>
                 {Array.isArray(comments) && comments.length > 0 ? (
                     comments.map((e) => (
                         <CommentBox
