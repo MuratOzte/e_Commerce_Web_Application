@@ -81,7 +81,6 @@ const CommentBox = (props) => {
 
     return (
         <>
-
             <Paper
                 elevation={8}
                 sx={{
@@ -107,14 +106,18 @@ const CommentBox = (props) => {
                             }}
                             style={{ position: 'absolute', right: 30 }}
                         >
-                            <FavoriteBorder />
+                            <Badge badgeContent={countLike} color="primary">
+                                <FavoriteBorder />
+                            </Badge>
                         </IconButton>
                     )}
                     {isLiked && (
                         <IconButton
                             onClick={() => {
                                 favoriteChangeHandler();
-                                commentDislike();
+                                commentDislike().then(() => {
+                                    countCommentLikes();
+                                });
                             }}
                             color="error"
                             style={{ position: 'absolute', right: 30 }}
