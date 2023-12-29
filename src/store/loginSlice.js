@@ -11,6 +11,7 @@ const loginSlice = createSlice({
     productId: null,
     orderIndex: null,
     commentId: null,
+    customerId: null,
   },
   reducers: {
     isLoggedInFunc(state) {
@@ -36,6 +37,9 @@ const loginSlice = createSlice({
     },
     setCommentId(state, action) {
       state.commentId = action.payload;
+    },
+    setCustomerId(state, action) {
+      state.customerId = action.payload;
     },
   },
 });

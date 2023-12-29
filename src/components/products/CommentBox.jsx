@@ -4,9 +4,11 @@ import Avatar from "@mui/material/Avatar";
 import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import loginSlice from "../../store/loginSlice";
+import Badge from "@mui/material/Badge";
 
 const CommentBox = (props) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [countLike, setCountLike] = useState(null);
   const dispatch = useDispatch();
 
   const favoriteChangeHandler = () => {
@@ -18,6 +20,7 @@ const CommentBox = (props) => {
   const token = useSelector((state) => state.login.token);
   const commentLikeUrl = `http://localhost:3000/auth/like/${commentId}`;
   const commentDislikeUrl = `http://localhost:3000/auth/deleteLike/${commentId}`;
+  const countLikeUrl = `http://localhost:3000/auth/countLikes/${commentId}`;
 
   const commentLike = async () => {
     try {
@@ -60,6 +63,25 @@ const CommentBox = (props) => {
     }
   };
 
+  const countCommentLikes = async () => {
+    try {
+      const response = await fetch(countLikeUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong !");
+      }
+      const fetchedData = await response.json();
+      setCountLike(fetchedData.countedLikes[0].like_count);
+      console.log(fetchedData.countedLikes[0].like_count);
+      return fetchedData;
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
   return (
     <Paper
       elevation={8}
@@ -80,6 +102,7 @@ const CommentBox = (props) => {
           <IconButton
             onClick={() => {
               favoriteChangeHandler(), commentLike();
+              countCommentLikes();
             }}
             style={{ position: "absolute", right: 30 }}
           >
@@ -94,7 +117,9 @@ const CommentBox = (props) => {
             color="error"
             style={{ position: "absolute", right: 30 }}
           >
-            <Favorite />
+            <Badge badgeContent={countLike} color="primary">
+              <Favorite />
+            </Badge>
           </IconButton>
         )}
       </Box>
