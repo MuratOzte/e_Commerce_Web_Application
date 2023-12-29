@@ -10,12 +10,13 @@ import { useEffect } from 'react';
 
 export default function MediaCard(props) {
     const dispatch = useDispatch();
-    const isOrderExist = useSelector((state) => state.login.isOrderExist);
+    const orderId = useSelector((state) => state.login.orderIndex);
+    //const productId = useSelector((state) => state.login.productId);
     const token = useSelector((state) => state.login.token);
 
-    const baseUrl = 'http://localhost:3000/createOrder';
+    //add product to cart
 
-    const fetchData = async (orderId) => {
+    const fetchData = async () => {
         try {
             const response = await fetch(
                 `http://localhost:3000/addProduct/${orderId}/${props.productId}`,
@@ -38,41 +39,6 @@ export default function MediaCard(props) {
         }
     };
 
-    const createOrder = async () => {
-        try {
-            const response = await fetch(baseUrl, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                method: 'POST',
-            });
-
-            if (!response.ok) {
-                throw new Error('Something Went Wrong !');
-            }
-
-            const fetchedData = await response.json();
-            dispatch(loginSlice.actions.OrderExist());
-            return fetchedData;
-        } catch (error) {
-            console.error('Error fetching data:', error.message);
-        }
-    };
-
-    const orderButtonHandler = () => {
-        dispatch(loginSlice.actions.setproductId(props.productId));
-        let orderId;
-        if (!isOrderExist) {
-            createOrder().then((e) => {
-                orderId = e.order.order_id;
-                console.log(orderId);
-                fetchData(orderId);
-            });
-        } else {
-            console.log(orderId);
-            fetchData(orderId);
-        }
-    };
     return (
         <div className="flip-card">
             <div className="flip-card-inner">
@@ -118,7 +84,14 @@ export default function MediaCard(props) {
                         </IconButton>
                         <IconButton
                             sx={{ color: 'white' }}
-                            onClick={orderButtonHandler}
+                            onClick={() => {
+                                dispatch(
+                                    loginSlice.actions.setproductId(
+                                        props.productId
+                                    )
+                                );
+                                fetchData();
+                            }}
                         >
                             <AddShoppingCart />
                         </IconButton>
