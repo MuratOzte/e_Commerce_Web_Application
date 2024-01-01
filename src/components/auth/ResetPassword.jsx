@@ -4,12 +4,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Divider from "@mui/material/Divider";
+import { Link } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -56,12 +58,14 @@ const ResPassword = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <Container component="main" maxWidth="xs">
+      <Paper
+        elevation={24}
+        sx={{ pb: 5, pt: 1, px: 5, mt: 4, borderRadius: 7 }}
+      >
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 1,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -73,15 +77,21 @@ const ResPassword = () => {
             noValidate
             sx={{ mt: 1 }}
           >
+            <Typography
+              display={"flex"}
+              justifyContent={"center"}
+              fontSize={24}
+            >
+              Change Password
+            </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
-              name="email"
-              label="email"
-              type="email"
               id="email"
-              autoComplete="current-email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
               value={enteredEmail}
               onChange={(e) => {
                 setEnteredEmail(e.target.value);
@@ -102,19 +112,56 @@ const ResPassword = () => {
               }}
             />
 
+            <Box
+              sx={{
+                justifyContent: "space-between",
+                display: "flex",
+              }}
+            ></Box>
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Reset Password
+              Sign Up
             </Button>
+            <Divider
+              sx={{
+                bgcolor: "#e3e5e8",
+                px: 15,
+                py: 0.05,
+                my: 1,
+              }}
+            />
           </Box>
+          <Link
+            to={"/"}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                bgcolor: "#42b72a",
+                pt: "4",
+                mt: 1.5,
+                ":hover": {
+                  bgcolor: "#2D8D1A",
+                },
+              }}
+            >
+              login page
+            </Button>
+          </Link>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+      </Paper>
+    </Container>
   );
 };
 
