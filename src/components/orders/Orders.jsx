@@ -177,7 +177,17 @@ const OrdersModal = (props) => {
                 )}
             </DialogContent>
             <DialogActions>
-                <Button onClick={deleteOrder}>Sepeti Temizle</Button>
+                <Button
+                    onClick={() => {
+                        deleteOrder().then(() => {
+                            setTimeout(() => {
+                                orderDetails();
+                            }, 50);
+                        });
+                    }}
+                >
+                    Sepeti Temizle
+                </Button>
                 <Button onClick={orderDetails}>Sepet Detayini Yukle</Button>
                 <Button
                     onClick={() => {
