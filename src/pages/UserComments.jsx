@@ -7,6 +7,33 @@ const baseUrl = 'http://localhost:3000/auth/customerComments';
 const UserComments = () => {
     const token = useSelector((state) => state.login.token);
     const [allComments, setAllComments] = useState(null);
+    const [maxLikedComment, setMaxLikedComment] = useState(null);
+
+    useEffect(() => {
+        const maxLikedComment = async () => {
+            try {
+                const response = await fetch(
+                    'http://localhost:3000/auth/maxLikedComment',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                if (!response.ok) {
+                    throw new Error('Something went wrong !');
+                }
+
+                const result = await response.json();
+                console.log(result);
+                setMaxLikedComment(result);
+                return result;
+            } catch (error) {
+                console.error('Error fetching data:', error.message);
+            }
+        };
+        maxLikedComment();
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +48,7 @@ const UserComments = () => {
                 }
 
                 const result = await response.json();
+                console.log(result);
                 setAllComments(result.comments);
             } catch (error) {
                 console.error(error);
@@ -64,7 +92,7 @@ const UserComments = () => {
 
             {allComments.map((comment) => (
                 <Paper
-                    key={comment.id}
+                    key={comment.comment_id}
                     elevation={3}
                     sx={{
                         margin: 'auto',

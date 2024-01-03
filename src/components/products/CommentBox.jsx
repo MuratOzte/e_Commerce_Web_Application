@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Paper, Typography, IconButton, Box } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { Box, IconButton, Paper, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
-import { FavoriteBorder, Favorite } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import loginSlice from '../../store/loginSlice';
 import Badge from '@mui/material/Badge';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const CommentBox = (props) => {
     const [isLiked, setIsLiked] = useState(false);

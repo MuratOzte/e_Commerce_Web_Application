@@ -1,7 +1,6 @@
 //packages
 import {
     Button,
-    TextField,
     Dialog,
     DialogActions,
     DialogContent,
@@ -10,12 +9,12 @@ import {
     Typography,
 } from '@mui/material';
 //hooks
-import { useDispatch, useSelector } from 'react-redux';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useDispatch, useSelector } from 'react-redux';
 
 //functions
-import loginSlice from '../../store/loginSlice';
 import { useEffect, useState } from 'react';
+import loginSlice from '../../store/loginSlice';
 
 const OrdersModal = (props) => {
     const dispatch = useDispatch();
@@ -36,6 +35,27 @@ const OrdersModal = (props) => {
     const orderDetailsUrl = `http://localhost:3000/orderDetails/${orderId}`;
     const deleteProductFromOrderUrl = `http://localhost:3000/deleteProduct/${orderId}/`;
     const deleteOrderUrl = `http://localhost:3000/deleteOrder/${orderId}`;
+
+    const createOrder = async () => {
+        try {
+            const response = await fetch(baseUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                throw new Error('Something went wrong !');
+            }
+            const result = await response.json();
+            setOrderId(result.order.order_id);
+            dispatch(loginSlice.actions.setOrderIndex(result.order.order_id));
+            return result;
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -146,7 +166,7 @@ const OrdersModal = (props) => {
                 ) : (
                     orderArray.map((e) => (
                         <DialogContentText
-                            key={e.id}
+                            key={e.price}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -182,6 +202,7 @@ const OrdersModal = (props) => {
                         deleteOrder().then(() => {
                             setTimeout(() => {
                                 orderDetails();
+                                createOrder();
                             }, 50);
                         });
                     }}
