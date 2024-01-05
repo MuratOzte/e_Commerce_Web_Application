@@ -21,6 +21,7 @@ const Login = () => {
 
     useEffect(() => {
         if (token) {
+            dispatch(loginSlice.actions.setToken(token));
             return navigate('/homepage');
         }
     }, []);
