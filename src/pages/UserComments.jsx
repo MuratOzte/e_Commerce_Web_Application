@@ -1,6 +1,6 @@
+import { Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Paper, Grid, Typography, Box } from '@mui/material';
 
 const baseUrl = 'http://localhost:3000/auth/customerComments';
 

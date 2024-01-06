@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Products = () => {
   const { id } = useParams();
-  const token = useSelector((state) => state.login.token);
+  const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState(null);
 
