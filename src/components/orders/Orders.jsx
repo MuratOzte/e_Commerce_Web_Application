@@ -7,6 +7,7 @@ import {
     DialogContentText,
     DialogTitle,
     Typography,
+    Divider,
 } from '@mui/material';
 //hooks
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -18,7 +19,7 @@ import loginSlice from '../../store/loginSlice';
 
 const OrdersModal = (props) => {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.login.token);
+    const token = localStorage.getItem('token');
 
     //modal close function
     const closeBtnHandler = () => {
@@ -26,10 +27,8 @@ const OrdersModal = (props) => {
     };
     const isOpenModal = useSelector((state) => state.login.isModalOpen);
     const isOrderExist = useSelector((state) => state.login.isOrderExist);
-    const [productDeleted, setProductDeleted] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [orderArray, setOrderArray] = useState(null);
-    const [productIdState, setproductIdState] = useState(null);
 
     const baseUrl = 'http://localhost:3000/createOrder';
     const orderDetailsUrl = `http://localhost:3000/orderDetails/${orderId}`;
@@ -113,7 +112,7 @@ const OrdersModal = (props) => {
         if (orderId) {
             orderDetails();
         }
-    }, [isOpenModal, productDeleted]);
+    }, [isOpenModal]);
 
     const deleteProductFromOrder = async (productId) => {
         try {
@@ -161,6 +160,26 @@ const OrdersModal = (props) => {
         <Dialog open={isOpenModal} onClose={closeBtnHandler}>
             <DialogTitle>Sepet</DialogTitle>
             <DialogContent>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-beetween',
+                        marginRight: 50,
+                        marginBottom: 10,
+                    }}
+                >
+                    <DialogContentText>Ürün İsmi</DialogContentText>
+                    <DialogContentText>Ürün Fiyati</DialogContentText>
+                    <DialogContentText>Ürün Adedi</DialogContentText>
+                </div>
+                <div
+                    style={{
+                        width: 'auto',
+                        height: '1px',
+                        backgroundColor: 'black',
+                        marginBottom: 10,
+                    }}
+                ></div>
                 {!orderArray ? (
                     <p>Sepet Boş</p>
                 ) : (
