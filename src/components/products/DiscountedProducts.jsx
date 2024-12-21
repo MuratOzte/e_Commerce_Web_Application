@@ -5,6 +5,7 @@ const DiscountedProducts = (props) => {
   return (
     <React.Fragment>
       <MediaCard
+        productId={props.productId}
         url={props.url}
         title={props.title}
         price={props.price}
