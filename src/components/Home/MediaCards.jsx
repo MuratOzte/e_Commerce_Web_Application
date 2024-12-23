@@ -13,7 +13,6 @@ export default function MediaCard(props) {
     const orderId = useSelector((state) => state.login.orderIndex);
     //const productId = useSelector((state) => state.login.productId);
     const token = useSelector((state) => state.login.token);
-    console.log(props.productId);
 
     //add product to cart
 
@@ -47,7 +46,7 @@ export default function MediaCard(props) {
                     <img
                         src={props.url}
                         alt={props.title}
-                        className='w-[300px] h-[200px]'
+                        style={{ width: '300px', height: '200px' }}
                     />
                     <Typography
                         sx={{
@@ -71,9 +70,13 @@ export default function MediaCard(props) {
                         <IconButton
                             sx={{ color: 'white' }}
                             onClick={() => {
-                                dispatch(loginSlice.actions.setproductId(1));
                                 dispatch(
                                     loginSlice.actions.toggleCommentModal(true)
+                                );
+                                dispatch(
+                                    loginSlice.actions.setproductId(
+                                        props.productId
+                                    )
                                 );
                             }}
                         >
