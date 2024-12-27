@@ -49,11 +49,11 @@ const ProductDetail = () => {
             );
 
             const data = await response.json();
-            console.log('Fetched comments:', data); 
+            console.log('Fetched comments:', data);
             if (Array.isArray(data.comments)) {
                 setComments(data.comments);
             } else {
-                setComments([]); 
+                setComments([]);
             }
         } catch (error) {
             console.error('Error fetching product comments:', error);
@@ -77,6 +77,7 @@ const ProductDetail = () => {
                     }
                 );
                 const data = await response.json();
+                console.log('Fetched product:', data);
                 setProduct(data.product);
             } catch (error) {
                 console.error('Error fetching product details:', error);
@@ -148,7 +149,12 @@ const ProductDetail = () => {
     return (
         <div className="p-4">
             <div className="w-full max-w-2xl mx-auto">
-                <div className="bg-white shadow rounded-lg p-6 mb-4">
+                <div className="bg-white shadow rounded-lg p-6 mb-4 relative">
+                    {product.discount_code && (
+                        <div className="absolute right-8 bg-green-500 px-4 py-2 rounded-md text-white shadow-lg hover:scale-105 transition-all duration-150">
+                            {product.discount_code}
+                        </div>
+                    )}
                     <div className="flex items-center space-x-4">
                         <img
                             src={product.product_image}
@@ -160,10 +166,35 @@ const ProductDetail = () => {
                                 {product.product_name}
                             </h1>
                             <p className="text-lg text-gray-700">
-                                Price: ${product.price}
+                                {product.discount_rate > 0 && (
+                                    <>
+                                        <span className="line-through text-gray-500 mr-2">
+                                            ${product.product_price}
+                                        </span>
+                                        <span className="text-green-600 font-semibold">
+                                            $
+                                            {(
+                                                product.product_price *
+                                                (1 -
+                                                    (product.discount_rate *
+                                                        100) /
+                                                        100)
+                                            ).toFixed(2)}
+                                        </span>
+                                        <span className="text-sm text-gray-500 ml-2">
+                                            ({product.discount_rate * 100}% off)
+                                        </span>
+                                    </>
+                                )}
+                                {product.discount_rate === 0 && (
+                                    <span>
+                                        ${product.product_price.toFixed(2)}
+                                    </span>
+                                )}
                             </p>
+
                             <p className="text-gray-600">
-                                Category ID: {product.category_id}
+                                Kategori: {product.category_name}
                             </p>
                         </div>
                     </div>
@@ -182,13 +213,19 @@ const ProductDetail = () => {
                     />
 
                     <form onSubmit={handleCommentSubmit} className="mt-4">
-                        <textarea
+                        <input
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    handleCommentSubmit(e);
+                                }
+                            }}
                             placeholder="Add a comment"
                             className="w-full border rounded-lg p-2 text-gray-700 focus:outline-none focus:ring"
                             required
-                        ></textarea>
+                        ></input>
                         <button
                             type="submit"
                             className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
@@ -248,7 +285,9 @@ const ProductsComment = ({ comments, setComments, productId }) => {
             {comments.length > 0 ? (
                 comments.map((comment) => (
                     <div key={comment.comment_id} className="flex gap-4">
-                        <p className='font-bold' >{comment.customer_name + ': '}</p>
+                        <p className="font-bold">
+                            {comment.customer_name + ': '}
+                        </p>
                         <p>
                             {comment.comment_text ||
                                 'No comment text available'}
