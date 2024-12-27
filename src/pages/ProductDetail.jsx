@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Favorite, FavoriteBorder, Send } from '@mui/icons-material';
+import { Favorite, Send } from '@mui/icons-material';
 import {
-    Box,
-    IconButton,
-    Paper,
-    Typography,
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    TextField,
+    IconButton,
     InputAdornment,
-    Button,
-    Avatar,
-    Badge,
+    Paper,
+    TextField,
+    Typography,
 } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import loginSlice from '../store/loginSlice';
 
 const ProductDetail = () => {
@@ -31,7 +28,32 @@ const ProductDetail = () => {
     const isCommentModalOpen = useSelector(
         (state) => state.login.isCommentModalOpen
     );
+    const orderId = useSelector((state) => state.login.orderIndex);
     const token = useSelector((state) => state.login.token);
+
+    const addProduct = async (product_id) => {
+        dispatch(loginSlice.actions.setproductId(product_id));
+        try {
+            const response = await fetch(
+                `http://localhost:3000/addProduct/${orderId}/${product_id}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Something went wrong !');
+            }
+
+            const fetchedData = await response.json();
+            console.log(fetchedData);
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+        }
+    };
 
     const fetchProductComments = async () => {
         try {
@@ -87,7 +109,8 @@ const ProductDetail = () => {
         const fetchMaxLikedComment = async () => {
             try {
                 const response = await fetch(
-                    'http://localhost:3000/auth/maxLikedComment',
+                    'http://localhost:3000/auth/maxLikedComment?productId=' +
+                        id,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -100,6 +123,10 @@ const ProductDetail = () => {
                     throw new Error('Something went wrong!');
                 }
                 const result = await response.json();
+                console.log('Max liked comment:', result);
+                if (!result.maxLikedComment) {
+                    return;
+                }
                 setMaxLikedCommentText(result.maxLikedComment.comment_text);
                 setMaxLikedCommentCount(result.maxLikedComment.like_count);
             } catch (error) {
@@ -138,6 +165,29 @@ const ProductDetail = () => {
         }
     };
 
+    const handleLikeComment = async (comment_id) => {
+        console.log('Liking comment:', comment_id);
+        try {
+            const response = await fetch(
+                `http://localhost:3000/auth/like/${comment_id}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
+            );
+            const data = await response.json();
+            console.log('Liked comment:', data);
+            fetchProductComments();
+        } catch (error) {
+            console.error('Error liking comment:', error);
+        }
+    };
+
     const closeBtnHandler = () => {
         dispatch(loginSlice.actions.toggleCommentModal(false));
     };
@@ -151,10 +201,16 @@ const ProductDetail = () => {
             <div className="w-full max-w-2xl mx-auto">
                 <div className="bg-white shadow rounded-lg p-6 mb-4 relative">
                     {product.discount_code && (
-                        <div className="absolute right-8 bg-green-500 px-4 py-2 rounded-md text-white shadow-lg hover:scale-105 transition-all duration-150">
+                        <div className="absolute right-8 bg-blue-400 px-4 py-2 rounded-md text-white shadow-lg hover:scale-105 transition-all duration-150">
                             {product.discount_code}
                         </div>
                     )}
+                    <button
+                        className="absolute right-6 bottom-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-150"
+                        onClick={() => addProduct(product.product_id)}
+                    >
+                        Sepete Ekle
+                    </button>
                     <div className="flex items-center space-x-4">
                         <img
                             src={product.product_image}
@@ -186,10 +242,8 @@ const ProductDetail = () => {
                                         </span>
                                     </>
                                 )}
-                                {product.discount_rate === 0 && (
-                                    <span>
-                                        ${product.product_price.toFixed(2)}
-                                    </span>
+                                {!product.discount_code && (
+                                    <span>${product.product_price}</span>
                                 )}
                             </p>
 
@@ -207,12 +261,16 @@ const ProductDetail = () => {
                         {maxLikedCommentCount})
                     </Paper>
                     <ProductsComment
+                        handleLikeComment={handleLikeComment}
                         comments={comments}
                         setComments={setComments}
                         productId={id}
                     />
 
-                    <form onSubmit={handleCommentSubmit} className="mt-4">
+                    <form
+                        onSubmit={handleCommentSubmit}
+                        className="mt-4 flex gap-8 h-12 items-center justify-center"
+                    >
                         <input
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
@@ -228,9 +286,9 @@ const ProductDetail = () => {
                         ></input>
                         <button
                             type="submit"
-                            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
                         >
-                            Submit Comment
+                            Send
                         </button>
                     </form>
                 </div>
@@ -244,6 +302,9 @@ const ProductDetail = () => {
                     {Array.isArray(comments) && comments.length > 0 ? (
                         comments.map((comment) => (
                             <CommentBox
+                                handleLikeComment={(e) => {
+                                    handleLikeComment(comment.comment_id);
+                                }}
                                 key={comment.comment_id}
                                 commentId={comment.comment_id}
                                 comment={comment.comment_text}
@@ -279,12 +340,15 @@ const ProductDetail = () => {
     );
 };
 
-const ProductsComment = ({ comments, setComments, productId }) => {
+const ProductsComment = ({ comments, handleLikeComment }) => {
     return (
-        <div>
+        <div className="w-full">
             {comments.length > 0 ? (
                 comments.map((comment) => (
-                    <div key={comment.comment_id} className="flex gap-4">
+                    <div
+                        key={comment.comment_id}
+                        className="flex gap-4 relative w-full bg-gray-300 my-4 px-2 py-1 rounded-md text-black"
+                    >
                         <p className="font-bold">
                             {comment.customer_name + ': '}
                         </p>
@@ -292,6 +356,16 @@ const ProductsComment = ({ comments, setComments, productId }) => {
                             {comment.comment_text ||
                                 'No comment text available'}
                         </p>
+                        <div className="right-4 absolute">
+                            {}
+                            <Favorite
+                                onClick={() =>
+                                    handleLikeComment(comment.comment_id)
+                                }
+                                color="error"
+                            />
+                            <span>{comment.like_count}</span>
+                        </div>
                     </div>
                 ))
             ) : (

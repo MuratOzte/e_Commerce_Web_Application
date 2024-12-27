@@ -27,13 +27,14 @@ const OrdersModal = (props) => {
     };
     const isOpenModal = useSelector((state) => state.login.isModalOpen);
     const isOrderExist = useSelector((state) => state.login.isOrderExist);
+    const orderIndex = useSelector((state) => state.login.orderIndex);
     const [orderId, setOrderId] = useState(null);
     const [orderArray, setOrderArray] = useState(null);
 
     const baseUrl = 'http://localhost:3000/createOrder';
-    const orderDetailsUrl = `http://localhost:3000/orderDetails/${orderId}`;
-    const deleteProductFromOrderUrl = `http://localhost:3000/deleteProduct/${orderId}/`;
-    const deleteOrderUrl = `http://localhost:3000/deleteOrder/${orderId}`;
+    const orderDetailsUrl = `http://localhost:3000/orderDetails/${orderIndex}`;
+    const deleteProductFromOrderUrl = `http://localhost:3000/deleteProduct/${orderIndex}/`;
+    const deleteOrderUrl = `http://localhost:3000/deleteOrder/${orderIndex}`;
 
     const createOrder = async () => {
         try {
@@ -109,7 +110,7 @@ const OrdersModal = (props) => {
     };
 
     useEffect(() => {
-        if (orderId) {
+        if (orderIndex) {
             orderDetails();
         }
     }, [isOpenModal]);
@@ -166,6 +167,7 @@ const OrdersModal = (props) => {
                         justifyContent: 'space-beetween',
                         marginRight: 50,
                         marginBottom: 10,
+                        gap: 32,
                     }}
                 >
                     <DialogContentText>Ürün İsmi</DialogContentText>
