@@ -1,80 +1,61 @@
-import Product from "../components/products/Product";
-
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import ProductCard from '../components/Home/ProductCard';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Products = () => {
-  const { id } = useParams();
-  const token = localStorage.getItem("token");
-  const [isLoading, setIsLoading] = useState(true);
-  const [result, setResult] = useState(null);
+    const { id } = useParams();
+    const token = localStorage.getItem('token');
+    const [isLoading, setIsLoading] = useState(true);
+    const [products, setProducts] = useState([]);
 
-  const baseUrl = "http://localhost:3000/products/";
+    const baseUrl = 'http://localhost:3000/products/';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(baseUrl + id, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(baseUrl + id, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-        if (!response.ok) {
-          throw new Error("Something Went Wrong !");
-        }
+                if (!response.ok) {
+                    throw new Error('Something Went Wrong!');
+                }
 
-        const fetchedData = await response.json();
-        setResult(fetchedData);
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id, baseUrl, token]);
-
-  return (
-    <>
-      {isLoading && <p>Loading...</p>}
-      {!isLoading &&
-        result &&
-        result.products
-          .reduce((acc, product, index) => {
-            const rowIndex = Math.floor(index / 3);
-
-            if (!acc[rowIndex]) {
-              acc[rowIndex] = [];
+                const fetchedData = await response.json();
+                setProducts(fetchedData.products || []);
+            } catch (error) {
+                console.error('Error fetching data:', error.message);
+            } finally {
+                setIsLoading(false);
             }
+        };
 
-            acc[rowIndex].push(product);
+        fetchData();
+    }, [id, baseUrl, token]);
 
-            return acc;
-          }, [])
-          .map((rowProducts, rowIndex) => (
-            <div
-              key={rowIndex}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {rowProducts.map((product) => (
-                <Product
-                  key={product.product_id}
-                  productId={product.product_id}
-                  price={product.price}
-                  codeId={product.code_id}
-                  url={product.product_image}
-                  title={product.product_name}
-                />
-              ))}
-            </div>
-          ))}
-    </>
-  );
+    return (
+        <div className="container mx-auto p-4">
+            {isLoading ? (
+                <p className="text-center text-gray-500">Loading...</p>
+            ) : (
+                <div className="flex flex-wrap gap-6 justify-center">
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product.product_id}
+                            product={{
+                                product_id: product.product_id,
+                                product_name: product.product_name,
+                                price: product.price,
+                                product_image: product.product_image,
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Products;

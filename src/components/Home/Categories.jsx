@@ -41,7 +41,7 @@ const Categories = () => {
                     <a
                         href={category.to}
                         key={index}
-                        className="relative group w-48 bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
+                        className="relative group w-48 bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 ring-2 ring-gray-200"
                     >
                         <img
                             src={category.src}

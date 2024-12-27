@@ -58,7 +58,10 @@ function ResponsiveAppBar() {
     return (
         <>
             {isLoggedIn && (
-                <AppBar position="static" sx={{ backgroundColor: '#607274' }}>
+                <AppBar
+                    position="static"
+                    sx={{ backgroundColor: '#fff', color: '#000' }}
+                >
                     <Container maxWidth="xl">
                         <Toolbar disableGutters>
                             <Box
@@ -82,23 +85,22 @@ function ResponsiveAppBar() {
                                         component="a"
                                         sx={{
                                             mr: 2,
+                                            ml: 4,
                                             display: { xs: 'flex' },
                                             flexGrow: 1,
-                                            fontFamily: 'monospace',
                                             fontWeight: 700,
-                                            letterSpacing: '.3rem',
-                                            color: 'inherit',
+                                            color: 'orange',
                                             textDecoration: 'none',
                                         }}
                                     >
-                                        E-Commerce
+                                        Hepsiburada
                                     </Typography>
                                 </Link>
                                 <Box display={'flex'} flexDirection={'row'}>
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
 
@@ -111,7 +113,7 @@ function ResponsiveAppBar() {
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
                                             textDecoration: 'none',
@@ -123,7 +125,7 @@ function ResponsiveAppBar() {
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
                                             textDecoration: 'none',
@@ -135,7 +137,7 @@ function ResponsiveAppBar() {
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
                                             textDecoration: 'none',
@@ -147,7 +149,7 @@ function ResponsiveAppBar() {
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
                                             paddingRight: 15,
@@ -160,7 +162,7 @@ function ResponsiveAppBar() {
                                     <Link
                                         style={{
                                             my: 2,
-                                            color: 'white',
+                                            color: 'black',
                                             display: 'block',
                                             padding: 5,
                                             paddingRight: 15,
@@ -182,7 +184,7 @@ function ResponsiveAppBar() {
                                             onClick={handleMenu}
                                             color="inherit"
                                         >
-                                            <AccountCircle fontSize="large" />
+                                            <AccountCircle fontSize={'large'} color='info' />
                                         </IconButton>
                                         <Menu
                                             id="menu-appbar"
@@ -222,7 +224,7 @@ function ResponsiveAppBar() {
                                             sx={{ color: 'white' }}
                                         >
                                             <ShoppingCartIcon
-                                                color="inherit"
+                                                color="success"
                                                 fontSize="large"
                                             />
                                             <Orders />
@@ -235,7 +237,7 @@ function ResponsiveAppBar() {
                                             onClick={exitBtnHandler}
                                         >
                                             <ExitToApp
-                                                color="inherit"
+                                                color="warning"
                                                 fontSize="large"
                                             />
                                         </IconButton>

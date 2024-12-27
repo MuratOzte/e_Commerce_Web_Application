@@ -18,11 +18,5 @@ body {
 }
 
 #root {
-    background: rgb(250, 238, 209);
-    background: linear-gradient(
-        90deg,
-        rgba(250, 238, 209, 1) 21%,
-        rgba(222, 208, 182, 1) 44%,
-        rgba(178, 165, 155, 1) 100%
-    );
+    background-color: #f2f4f7;
 }
