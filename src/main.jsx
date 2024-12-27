@@ -10,6 +10,8 @@ import {
     UserComments,
 } from './pages/index.js';
 
+import ProductDetail from './pages/ProductDetail.jsx'
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import './index.css';
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 element: <SignUp />,
+            },
+            {
+                path: 'productDetail/:id',
+                element:<ProductDetail />
             },
             {
                 path: 'resPassword',
