@@ -49,11 +49,11 @@ const ProductDetail = () => {
             );
 
             const data = await response.json();
-            console.log('Fetched comments:', data); // Gelen veriyi kontrol et
+            console.log('Fetched comments:', data); 
             if (Array.isArray(data.comments)) {
                 setComments(data.comments);
             } else {
-                setComments([]); // Verinin doğru formatta olup olmadığını kontrol et
+                setComments([]); 
             }
         } catch (error) {
             console.error('Error fetching product comments:', error);
@@ -175,7 +175,6 @@ const ProductDetail = () => {
                         Max Liked Comment: {maxLikedCommentText} (Likes:{' '}
                         {maxLikedCommentCount})
                     </Paper>
-                    {/* Here we are using ProductsComment component */}
                     <ProductsComment
                         comments={comments}
                         setComments={setComments}
@@ -248,7 +247,8 @@ const ProductsComment = ({ comments, setComments, productId }) => {
         <div>
             {comments.length > 0 ? (
                 comments.map((comment) => (
-                    <div key={comment.comment_id} className="comment">
+                    <div key={comment.comment_id} className="flex gap-4">
+                        <p className='font-bold' >{comment.customer_name + ': '}</p>
                         <p>
                             {comment.comment_text ||
                                 'No comment text available'}
