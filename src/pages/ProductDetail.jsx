@@ -19,8 +19,6 @@ import {
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import loginSlice from '../store/loginSlice';
-import ProductsComment from '../components/products/ProductsComment';
-import CommentBox from '../components/products/CommentBox';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -34,6 +32,34 @@ const ProductDetail = () => {
         (state) => state.login.isCommentModalOpen
     );
     const token = useSelector((state) => state.login.token);
+
+    const fetchProductComments = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/productComments/${id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
+                    },
+                }
+            );
+
+            const data = await response.json();
+            console.log('Fetched comments:', data); // Gelen veriyi kontrol et
+            if (Array.isArray(data.comments)) {
+                setComments(data.comments);
+            } else {
+                setComments([]); // Verinin doğru formatta olup olmadığını kontrol et
+            }
+        } catch (error) {
+            console.error('Error fetching product comments:', error);
+            setComments([]);
+        }
+    };
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -54,29 +80,6 @@ const ProductDetail = () => {
                 setProduct(data.product);
             } catch (error) {
                 console.error('Error fetching product details:', error);
-            }
-        };
-
-        const fetchProductComments = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:3000/productComments/${id}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${localStorage.getItem(
-                                'token'
-                            )}`,
-                        },
-                    }
-                );
-
-                const buffer = await response.json();
-                setComments(Array.isArray(buffer) ? buffer : []);
-            } catch (error) {
-                console.error('Error fetching product comments:', error);
-                setComments([]);
             }
         };
 
@@ -127,6 +130,8 @@ const ProductDetail = () => {
             const data = await response.json();
             setComments((prevComments) => [...prevComments, data]);
             setNewComment('');
+
+            fetchProductComments();
         } catch (error) {
             console.error('Error submitting comment:', error);
         }
@@ -234,6 +239,35 @@ const ProductDetail = () => {
                     <Button onClick={closeBtnHandler}>Close</Button>
                 </DialogActions>
             </Dialog>
+        </div>
+    );
+};
+
+const ProductsComment = ({ comments, setComments, productId }) => {
+    return (
+        <div>
+            {comments.length > 0 ? (
+                comments.map((comment) => (
+                    <div key={comment.comment_id} className="comment">
+                        <p>
+                            {comment.comment_text ||
+                                'No comment text available'}
+                        </p>
+                    </div>
+                ))
+            ) : (
+                <p>No comments available</p>
+            )}
+        </div>
+    );
+};
+
+const CommentBox = ({ commentId, comment }) => {
+    return (
+        <div className="comment-box">
+            <Typography variant="body1">
+                {comment || 'No comment text'}
+            </Typography>
         </div>
     );
 };
