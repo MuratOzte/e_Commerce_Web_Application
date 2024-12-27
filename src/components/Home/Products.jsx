@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ProductCard from './ProductCard';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -45,24 +46,7 @@ const Products = () => {
             <h2 className="text-2xl font-bold mb-6 text-center">Ürünler</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.map((product) => (
-                    <div
-                        key={product.product_id}
-                        className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
-                    >
-                        <img
-                            src={`http://localhost:3000/${product.product_image}`}
-                            alt={product.product_name}
-                            className="w-full h-48 object-cover"
-                        />
-                        <div className="p-4">
-                            <h3 className="text-lg font-semibold text-gray-800">
-                                {product.product_name}
-                            </h3>
-                            <p className="text-gray-500">
-                                Fiyat: {product.price} ₺
-                            </p>
-                        </div>
-                    </div>
+                    <ProductCard key={product.product_id} product={product} />
                 ))}
             </div>
         </div>
