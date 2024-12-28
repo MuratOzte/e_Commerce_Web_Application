@@ -108,6 +108,9 @@ const ProductDetail = () => {
 
         const fetchMaxLikedComment = async () => {
             try {
+                console.log(
+                    'http://localhost:3000/auth/maxLikedComment?productId=' + id
+                );
                 const response = await fetch(
                     'http://localhost:3000/auth/maxLikedComment?productId=' +
                         id,
@@ -256,15 +259,13 @@ const ProductDetail = () => {
 
                 <div className="bg-white shadow rounded-lg p-6 mb-4">
                     <h2 className="text-xl font-semibold mb-4">Comments</h2>
-                    <Paper elevation={8} className="p-4 mb-4 bg-red-100">
-                        Max Liked Comment: {maxLikedCommentText} (Likes:{' '}
-                        {maxLikedCommentCount})
-                    </Paper>
                     <ProductsComment
                         handleLikeComment={handleLikeComment}
                         comments={comments}
                         setComments={setComments}
                         productId={id}
+                        maxLikedCommentText={maxLikedCommentText}
+                        maxLikedCommentCount={maxLikedCommentCount}
                     />
 
                     <form
@@ -340,14 +341,26 @@ const ProductDetail = () => {
     );
 };
 
-const ProductsComment = ({ comments, handleLikeComment }) => {
+const ProductsComment = ({
+    comments,
+    handleLikeComment,
+    maxLikedCommentCount,
+    maxLikedCommentText,
+}) => {
     return (
         <div className="w-full">
             {comments.length > 0 ? (
                 comments.map((comment) => (
                     <div
                         key={comment.comment_id}
-                        className="flex gap-4 relative w-full bg-gray-300 my-4 px-2 py-1 rounded-md text-black"
+                        className={`flex gap-4 relative w-full bg-gray-300 my-4 px-2 py-1 rounded-md text-black
+                            ${
+                                maxLikedCommentCount > 0 &&
+                                comment.comment_text === maxLikedCommentText
+                                    ? 'bg-green-200'
+                                    : ''
+                            }
+                            `}
                     >
                         <p className="font-bold">
                             {comment.customer_name + ': '}
