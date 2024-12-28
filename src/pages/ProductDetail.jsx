@@ -301,12 +301,12 @@ const ProductDetail = () => {
                 </DialogTitle>
                 <DialogContent>
                     {Array.isArray(comments) && comments.length > 0 ? (
-                        comments.map((comment) => (
+                        comments.map((comment,index) => (
                             <CommentBox
                                 handleLikeComment={(e) => {
                                     handleLikeComment(comment.comment_id);
                                 }}
-                                key={comment.comment_id}
+                                key={comment.comment_id + index * Math.random()}
                                 commentId={comment.comment_id}
                                 comment={comment.comment_text}
                             />
@@ -350,9 +350,9 @@ const ProductsComment = ({
     return (
         <div className="w-full">
             {comments.length > 0 ? (
-                comments.map((comment) => (
+                comments.map((comment,index) => (
                     <div
-                        key={comment.comment_id}
+                        key={comment.comment_id + index}
                         className={`flex gap-4 relative w-full bg-gray-300 my-4 px-2 py-1 rounded-md text-black
                             ${
                                 maxLikedCommentCount > 0 &&
