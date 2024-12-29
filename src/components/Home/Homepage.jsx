@@ -26,11 +26,6 @@ const categories = [
         title: 'Çanta',
         to: '/products/5',
     },
-    {
-        src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXkl4ibH72dbNjpf3shlJUGi9wIGBDe8fwEg&usqp=CAU',
-        title: 'İndirimli Ürünler',
-        to: '/discountProducts',
-    },
 ];
 
 const Home = () => {

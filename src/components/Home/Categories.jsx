@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const categories = [
     {
@@ -38,8 +39,8 @@ const Categories = () => {
         <div className="w-full mx-auto p-4">
             <div className="flex flex-wrap justify-evenly gap-6">
                 {categories.map((category, index) => (
-                    <a
-                        href={category.to}
+                    <Link
+                        to={category.to}
                         key={index+'link'}
                         className="relative group w-48 bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300 ring-2 ring-gray-200"
                     >
@@ -54,7 +55,7 @@ const Categories = () => {
                                 {category.title}
                             </h3>
                         </div>
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>

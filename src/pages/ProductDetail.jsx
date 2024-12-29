@@ -16,6 +16,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import loginSlice from '../store/loginSlice';
+import Rating from '@mui/material/Rating';
+
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -250,9 +252,16 @@ const ProductDetail = () => {
                                 )}
                             </p>
 
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 my-2">
                                 Kategori: {product.category_name}
                             </p>
+                            <div >
+                                <Rating
+                                    name="read-only"
+                                    value={product.product_star}
+                                    readOnly
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -297,11 +306,11 @@ const ProductDetail = () => {
 
             <Dialog open={isCommentModalOpen} onClose={closeBtnHandler}>
                 <DialogTitle className="border-b border-gray-300">
-                    Comments
+                    Comments - Bu Ürüne {comments.length} Yorum Yapıldı
                 </DialogTitle>
                 <DialogContent>
                     {Array.isArray(comments) && comments.length > 0 ? (
-                        comments.map((comment,index) => (
+                        comments.map((comment, index) => (
                             <CommentBox
                                 handleLikeComment={(e) => {
                                     handleLikeComment(comment.comment_id);
@@ -348,9 +357,10 @@ const ProductsComment = ({
     maxLikedCommentText,
 }) => {
     return (
-        <div className="w-full">
+        <div className="w-full relative pt-4">
+            <p className='absolute -top-10 right-0 bg-slate-200 text-black px-4 py-2 rounded-md' >Bu Ürüne {comments.length} Yorum Yapıldı</p>
             {comments.length > 0 ? (
-                comments.map((comment,index) => (
+                comments.map((comment, index) => (
                     <div
                         key={comment.comment_id + index}
                         className={`flex gap-4 relative w-full bg-gray-300 my-4 px-2 py-1 rounded-md text-black
