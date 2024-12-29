@@ -18,6 +18,7 @@ import './index.css';
 import SignUp from './components/auth/SignUp.jsx';
 import ResPassword from './components/auth/ResetPassword.jsx';
 import store from './store/index.js';
+import Payment from './pages/Payment.jsx';
 
 const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
                 path: 'userComments',
                 element: <UserComments />,
             },
+            {
+                path:'payment',
+                element:<Payment />
+            }
         ],
     },
 ]);

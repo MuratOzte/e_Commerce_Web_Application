@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 //functions
 import { useEffect, useState } from 'react';
 import loginSlice from '../../store/loginSlice';
+import { Link } from 'react-router-dom';
 
 const OrdersModal = (props) => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const OrdersModal = (props) => {
     const isOpenModal = useSelector((state) => state.login.isModalOpen);
     const isOrderExist = useSelector((state) => state.login.isOrderExist);
     const orderIndex = useSelector((state) => state.login.orderIndex);
+    const order = useSelector((state) => state.login.order);
     const [orderId, setOrderId] = useState(null);
     const [orderArray, setOrderArray] = useState(null);
 
@@ -101,6 +103,7 @@ const OrdersModal = (props) => {
             }
 
             const result = await response.json();
+            dispatch(loginSlice.actions.setOrder(result.orderDetails));
             setOrderArray(result.orderDetails);
             console.log(result);
             return result;
@@ -162,6 +165,7 @@ const OrdersModal = (props) => {
             <DialogTitle>Sepet</DialogTitle>
             <DialogContent>
                 <div
+                    className="relative"
                     style={{
                         display: 'flex',
                         justifyContent: 'space-beetween',
@@ -174,6 +178,15 @@ const OrdersModal = (props) => {
                     <DialogContentText>Ürün Fiyati</DialogContentText>
                     <DialogContentText>Ürün Adedi</DialogContentText>
                 </div>
+
+                {order.length > 0 && (
+                    <Link
+                        to={`/payment`}
+                        className="absolute right-4 top-4 bg-green-500 px-4 py-2 text-white rounded-md shadow-md"
+                    >
+                        Ödeme Adımına Geç
+                    </Link>
+                )}
                 <div
                     style={{
                         width: 'auto',
