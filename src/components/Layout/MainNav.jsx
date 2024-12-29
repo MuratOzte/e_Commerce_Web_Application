@@ -55,6 +55,10 @@ function ResponsiveAppBar() {
         setIsMostLikedModalOpen(false);
     };
 
+    const oldOrderHandler = () => {
+        navigate('/oldOrders');
+        setAnchorEl(null);
+    };
     return (
         <>
             {isLoggedIn && (
@@ -184,7 +188,10 @@ function ResponsiveAppBar() {
                                             onClick={handleMenu}
                                             color="inherit"
                                         >
-                                            <AccountCircle fontSize={'large'} color='info' />
+                                            <AccountCircle
+                                                fontSize={'large'}
+                                                color="info"
+                                            />
                                         </IconButton>
                                         <Menu
                                             id="menu-appbar"
@@ -214,6 +221,11 @@ function ResponsiveAppBar() {
                                                 onClick={allCommentsHandler}
                                             >
                                                 Tüm Yorumlarım
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={oldOrderHandler}
+                                            >
+                                                Geçmiş Siparişlerim
                                             </MenuItem>
                                         </Menu>
                                     </div>
